@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.github.willb611" />
+
+    <!-- JMS connectionFactory - use Activemq connection factory -->
+    <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <!-- Assumes local ActiveMQ broker using standard setup -->
+        <constructor-arg index="0" value="tcp://0.0.0.0:61616" />
+    </bean>
+
+    <!-- Cache around the activemq connection factory -->
+    <bean id="connectionFactory"
+          class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory" />
+    </bean>
+
+    <!-- Default Destination Queue Definition -->
+    <bean id="defaultDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <!-- queue name -->
+        <constructor-arg index="0" value="DEFAULT.DEST" />
+    </bean>
+
+    <!-- JmsTemplate Definition -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="defaultDestination" ref="defaultDestination" />
+    </bean>
+</beans>
