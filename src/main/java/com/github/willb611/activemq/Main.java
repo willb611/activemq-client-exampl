@@ -17,7 +17,7 @@ public class Main {
     private static final String APP_CONTEXT_FILENAME = "app-context.xml";
 
     private final ApplicationContext applicationContext;
-    private final int MESSAGE_COUNT = 2500;
+    private final int MESSAGE_COUNT = 500;
 
     public static void main(String[] args) {
       // init spring context
