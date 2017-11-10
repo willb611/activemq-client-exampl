@@ -32,7 +32,7 @@ public class Main {
     }
 
     public void readAndOrWriteMessages() {
-      //sendMessages();
+      sendMessages();
       readMessages();
     }
 
